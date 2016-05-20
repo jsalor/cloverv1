@@ -17,7 +17,7 @@ public class UnionArrays {
 			}
 			else
 			{
-				c[k]=a[j];
+				c[k]=b[j];
 				k++;
 				j++;
 			}
