@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -23,19 +24,21 @@ public class UnionArraysTest {
 	
 	
 	@Parameters
-	public ArrayList<int[]> testeo(){
+	public static ArrayList<Object[]> testeo(){
+		
+		ArrayList <Object[]> parametros = new ArrayList <Object[]> ();
 		int n1[]={1,2,3,4};
 		int n2[]={5,6,7,8};
 		int n3[]={1,2,3,4,5,6,7,8};
 		
-		ArrayList  datos = new ArrayList <int[]>();
+		Object datosIniciales [] = new Object [3];
+		datosIniciales [0]= n1;
+		datosIniciales [1]= n2;
+		datosIniciales [2]= n3;
 		
-		datos.add(n1);
-		datos.add(n2);
-		datos.add(n3);
+		parametros.add(datosIniciales);
 		
-		
-		return datos;
+		return parametros;
 		
 		
 	}
@@ -44,8 +47,8 @@ public class UnionArraysTest {
 
 	@Test
 	public void testMerge() {		
-				
-		assertEquals();
+		UnionArrays arraysito = new UnionArrays();		
+		Assert.assertArrayEquals(arraysito.merge(primero, segundo),resul);
 		
 	}
 
