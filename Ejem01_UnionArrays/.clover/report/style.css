@@ -196,18 +196,6 @@ table.aui > tbody > tr > td.align-middle {
     color: #333333;
 }
 
-.arrowUp:hover, .arrowUp {
-    background-image: url(img/icn_up.gif);
-    background-position: top right;
-    background-repeat: no-repeat;
-}
-
-.arrowDown:hover, .arrowDown {
-    background-image: url(img/icn_down.gif);
-    background-position: top right;
-    background-repeat: no-repeat;
-}
-
 .headerTitle {
     padding: 0 10px 0 3px;
     text-align: center;
@@ -789,4 +777,40 @@ table.aui > tbody > tr > td.align-middle {
 #footer {
     background: #f5f5f5;
     border-top: 1px solid #ccc;
+}
+
+table.cloud-report-table {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+table.cloud-report-table td {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    padding-bottom: 0;
+    padding-top: 0;
+    color: #707070;
+    font-size: 12px;
+    line-height: 1.33333333333333;
+}
+
+td.cloud-report-label {
+    -webkit-transform: translatex(-0.5em);
+    -ms-transform: translatex(-0.5em);
+    transform: translatex(-0.5em);
+}
+
+td.cloud-report-max-label {
+    -webkit-transform: translatex(2.6em);
+    -ms-transform: translatex(2.6em);
+    transform: translatex(2.6em);
+}
+
+td.cloud-report-min-label {
+    -webkit-transform: translatex(-0.5em);
+    -ms-transform: translatex(-0.5em);
+    transform: translatex(-0.5em);
 }

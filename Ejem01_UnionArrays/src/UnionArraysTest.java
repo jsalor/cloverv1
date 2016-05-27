@@ -49,7 +49,6 @@ public class UnionArraysTest {
 	public void testMerge() {		
 		UnionArrays arraysito = new UnionArrays();		
 		Assert.assertArrayEquals(arraysito.merge(primero, segundo),resul);
-		
 	}
 
 }

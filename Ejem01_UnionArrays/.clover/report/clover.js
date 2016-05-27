@@ -286,60 +286,6 @@ function toggleNodeEx(ele, collapsed, expanded) {
     replaceClass(ele, regex, replacement);
 }
 
-// Toggle all method summaries
-function toggleAllClasses(element) {
-    var expandAll = (element.innerHTML == 'Expand all methods');
-    forceToggleAllClasses(element, expandAll);
-}
-//
-function forceToggleAllClasses(element, expandAll) {
-
-    setToggleLabel(element,  expandAll);
-    var display = (expandAll) ? '' : 'none';
-    var visitor = function (classData) {
-        setDisplayOnAll(classData.name, classData.methods.length, display);
-        var span = document.getElementById('span-' + classData.name);
-        if (expandAll) {
-            swapExpand(span);
-        } else {
-            swapCollapse(span);
-        }
-    };
-    visitAllClasses(visitor);
-}
-
-// traverses the class data, and executes visitor on each class
-function visitAllClasses(visitor) {
-    for (var i = 0; i < clover.pageData.classes.length; i++) {
-        var classData = clover.pageData.classes[i];
-        visitor(classData);
-    }
-}
-
-// toggle the display of all method summaries for a given class 
-function toggleClass(ele, className, rowCount) {
-
-    var firstnode = document.getElementById(className + "-" + (1));
-    if (firstnode == null) return;
-    var display = 'none' ;
-    if (firstnode.style.display == 'none') {
-        display = '';
-        swapExpand(ele);
-    } else {
-        swapCollapse(ele);
-    }
-    setDisplayOnAll(className, rowCount, display);
-    return display;
-}
-
-// sets the display on each method summary for a class.
-function setDisplayOnAll(className, rowCount, display) {
-    for (var i = 0; i < rowCount; i++) {
-        var node = document.getElementById(className + "-" + (i + 1));
-        node.style.display = display;
-    }
-}
-
 function toggleAllInlineMethods(element) {
     var inlineExpandAll = (element.innerHTML == 'Expand all methods');
     setToggleLabel(element, inlineExpandAll);
@@ -418,12 +364,25 @@ function setBrowserTitle(title) {
     }
 }
 
-function onLoad(title) {
-    var qs = new QueryString();
-    qs.Read();
+function parseQueryArgs() {
+    var params = [];
+    var paramsString = window.location.search.split('?')[1];
+    if (paramsString != undefined) {
+        paramsString.split('&').forEach(function (item) {
+            var splitted = item.split("=");
+            params[splitted[0]] = splitted[1];
+        });
+    }
+    return params;
+}
 
-    var testId = qs.GetValue("id");
-    var lineNo = qs.GetValue("line");
+
+//used by src-file.vm
+function onLoad(title) {
+    var queryArgs = parseQueryArgs();
+
+    var testId = queryArgs["id"];
+    var lineNo = queryArgs["line"];
     
     if (testId != undefined) {
         hilightTestOnLoad(testId);
@@ -463,7 +422,6 @@ function hilightTestOnLoad(testId) {
     if (cbox == undefined) return;
     cbox.checked = true;
     hiLightByTest(testId, true);
-    toggleAllClasses(document.getElementById('stat-expander'));
 }
 
 // called in the onlick on the srcLine margin
@@ -826,6 +784,23 @@ function replaceImg(ele, regex, newClass) {
 
 
 function createTreeMap(json) {
+
+    // our own colour interpolation - see also ReportColors.ADG_HEAT_COLORS, as colours should match (moreless)
+    TM.Squarified.implement({
+        'setColor': function (json) {
+            var x = (json.data.$color - 0);
+            if (x > 80) {
+                var alpha = 0.75 - 0.50 * (x - 80.0)/20.0;
+                return "rgba(20,137,44," + alpha + ")"; // ADG green 75%-25%
+            } else if (x > 60) {
+                var alpha = 0.75 - 0.50 * (x - 60.0)/20.0;
+                return "rgba(246,195,66," + alpha + ")"; // ADG yellow 75%-25%
+            } else {
+                var alpha = 0.75 - 0.50 * x/60.0;
+                return "rgba(208,68,55," + alpha + ")"; // ADG red 75%-25%
+            }
+        }
+    });
 
     return new TM.Squarified({
         //Where to inject the Treemap
